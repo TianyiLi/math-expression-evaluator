@@ -2,8 +2,8 @@ import { lex, addToken } from './lexer'
 import { tokenTypes, Token, createTokens } from './token'
 import { toPostfix } from './postfix'
 import { postfixEval, Constants } from './postfix_evaluator'
-import { createMathFunctions } from './functions'
-;('use strict')
+import { MathHandler } from './types/math_handler';
+('use strict')
 // var Mexp = function (parsed) {
 //   this.value = parsed
 // }
@@ -18,9 +18,9 @@ class Mexp {
 	eval(string: string, tokens?: Token[], Constants?: Constants) {
 		return this.postfixEval(this.toPostfix(this.lex(string, tokens)), Constants)
 	}
-	math!: ReturnType<typeof createMathFunctions>
-	constructor() {
-		this.math = createMathFunctions(this)
+	public math: MathHandler;
+	constructor(mathHandler: (mexp: Mexp) => MathHandler) {
+		this.math = mathHandler(this)
 		this.tokens = createTokens(this)
 	}
 

@@ -1,0 +1,33 @@
+import { ParsedToken } from '../token';
+
+export interface MathHandler {
+  isDegree: boolean
+  acos: (x: number) => number
+  add: (a: number, b: number) => number
+  asin: (x: number) => number
+  atan: (x: number) => number
+  acosh: (x: number) => number
+  asinh: (x: number) => number
+  atanh: (x: number) => number
+  C: (n: number, r: number) => number | 'NaN'
+  changeSign: (x: number) => number
+  cos: (x: number) => number
+  cosh: (x: number) => number
+  div: (a: number, b: number) => number
+  fact: (n: number) => number | 'NaN'
+  inverse: (x: number) => number
+  log: (x: number) => number
+  mod: (a: number, b: number) => number
+  mul: (a: number, b: number) => number
+  P: (n: number, r: number) => number
+  Pi: (low: number, high: number, ex: ParsedToken[]) => number
+  pow10x: (e: number) => number
+  sigma: (low: number, high: number, ex: ParsedToken[]) => number
+  sin: (x: number) => number
+  sinh: (x: number) => number
+  sub: (a: number, b: number) => number
+  tan: (x: number) => number
+  tanh: (x: number) => number
+  toRadian: (x: number) => number
+  and: (a: number, b: number) => number
+}

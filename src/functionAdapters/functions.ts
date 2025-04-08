@@ -1,6 +1,8 @@
-import { ParsedToken } from './token'
-import Mexp from './index'
-export const createMathFunctions = (mexp: Mexp) => ({
+import { ParsedToken } from '../token'
+import Mexp from '../index'
+import { MathHandler } from '../types/math_handler'
+
+export const createMathFunctions = (mexp: Mexp): MathHandler => ({
 	isDegree: true, // mode of calculator
 	acos: function (x: number) {
 		return mexp.math.isDegree ? (180 / Math.PI) * Math.acos(x) : Math.acos(x)

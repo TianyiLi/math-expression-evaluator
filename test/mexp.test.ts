@@ -1,65 +1,74 @@
 // This test is for node JS
 
-var assert = require('assert')
-var Mexp = require('../dist/es/index.js')
-var mexp = new Mexp()
+import Mexp from '../src';
+import { describe, it, expect } from 'bun:test';
+import { createMathFunctions } from '../src/functionAdapters/functions';
+
+const mexp = new Mexp(createMathFunctions)
+
+interface TestCase {
+	expr: string;
+	expected: number;
+}
+
 describe('Testing Unit', function () {
 	it('should equal 2 to check a number', function () {
-		assert.equal(mexp.eval('2'), 2)
+		expect(mexp.eval('2')).toBe(2);
 	})
 	it('checks a math function', function () {
-		assert.equal(mexp.eval('tan(180)'), 0)
+		expect(mexp.eval('tan(180)')).toBe(-0);
 	})
 	it('checks a parenthesis less function', function () {
-		assert.equal(mexp.eval('sin180'), 0)
+		expect(mexp.eval('sin180')).toBe(0);
 	})
 	it('checks a parenthesis less function with multiplication', function () {
-		assert.equal(mexp.eval('0sin180'), 0)
+		expect(mexp.eval('0sin180')).toBe(0);
 	})
 	it('checks a multiplication of root function', function () {
-		assert.equal(mexp.eval('3 root 9'), 9)
+		expect(mexp.eval('3 root 9')).toBe(9);
 	})
 	it('checks a multiplication of root function', function () {
-		assert.equal(mexp.eval('3root9'), 9)
+		expect(mexp.eval('3root9')).toBe(9);
 	})
 
 	it('checks a parenthesis less function with multiplication by decimal', function () {
-		assert.equal(mexp.eval('0.5sin90'), 0.5)
+		expect(mexp.eval('0.5sin90')).toBe(0.5);
 	})
 	it('checks a parenthesis less function after a space', function () {
-		assert.equal(mexp.eval('cos 180'), -1)
+		expect(mexp.eval('cos 180')).toBe(-1);
 	})
 
 	it('checks a parenthesis function with multiplication', function () {
-		assert.equal(mexp.eval('0.5sin(90)'), 0.5)
+		expect(mexp.eval('0.5sin(90)')).toBe(0.5);
 	})
 
 	it('checks a parenthesis less function after multiple spaces', function () {
-		assert.equal(mexp.eval('cos   180'), -1)
+		expect(mexp.eval('cos   180')).toBe(-1);
 	})
 	it('checks consecutive operator', function () {
-		assert.equal(mexp.eval('0+-2'), -2)
+		expect(mexp.eval('0+-2')).toBe(-2);
 	})
 	it('checks ^ operator', function () {
-		assert.equal(mexp.eval('2^2'), 4)
+		expect(mexp.eval('2^2')).toBe(4);
 	})
 	it('checks when * is omitted before parenthesis and after', function () {
-		assert.equal(mexp.eval('2(7-4)3'), 18)
+		expect(mexp.eval('2(7-4)3')).toBe(18);
 	})
 	it('checks multiplication and exponential in series', function () {
-		assert.equal(mexp.eval('2*7^2'), 98)
+		expect(mexp.eval('2*7^2')).toBe(98);
 	})
 	it('checks exponential and multiplication in series', function () {
-		assert.equal(mexp.eval('2^5*2'), 64)
+		expect(mexp.eval('2^5*2')).toBe(64);
 	})
 	it('-3^2=9', function () {
-		assert.equal(mexp.eval('-3^2'), -9)
+		expect(mexp.eval('-3^2')).toBe(-9);
 	})
 	it('3^2-2^2=5', function () {
-		assert.equal(mexp.eval('3^2-2^2'), 5)
+		expect(mexp.eval('3^2-2^2')).toBe(5);
 
-		assert.equal(
+		expect(
 			Math.round((mexp.eval('(4-(2-1)^2)^.5') + Number.EPSILON) * 100) / 100,
+		).toBe(
 			Math.round((Math.sqrt(3) + Number.EPSILON) * 100) / 100
 		)
 	})
@@ -80,337 +89,324 @@ describe('Testing Unit', function () {
 	// 	assert.equal(mexp.eval('2(7-4)3').toPostfix().formulaEval(), '(2&times;(7-4))&times;3')
 	// })
 	it('test to check the bug when number contains decimal', function () {
-		assert.equal(mexp.eval('int2.3'), '2')
+		expect(mexp.eval('int2.3')).toBe(2);
 	})
 	it('test to check auto correct of parenthesis mismatch if opening>closing', function () {
-		assert.equal(mexp.eval('(2+(3-4'), '1')
+		expect(mexp.eval('(2+(3-4')).toBe(1);
 	})
 	it('check for negative of a constant', function () {
-		assert.equal(mexp.eval('-e'), -Math.E)
+		expect(mexp.eval('-e')).toBe(-Math.E);
 	})
 	it('check for constant inside Sigma', function () {
-		assert.equal(mexp.eval('Sigma1,3,2', [{ type: 3, value: 'x', show: 'x', token: 'x' }], { x: 2 }), 6)
+		expect(mexp.eval('Sigma1,3,2', [{ type: 3, value: 'x', show: 'x', token: 'x', precedence: 0 }], { x: 2 })).toBe(6);
 	})
 	it('check when arithmetic and n are present inside sigma', function () {
-		assert.equal(mexp.eval('Sigma1,2,n'), 3)
+		expect(mexp.eval('Sigma1,2,n')).toBe(3);
 	})
 	it(' should check when 4C3', function () {
-		assert.equal(mexp.eval('4C3'), 4)
+		expect(mexp.eval('4C3')).toBe(4);
 	})
 	it('check when arithmetic and n are present inside sigma', function () {
-		assert.equal(mexp.eval('Sigma1,2,(n*n)'), 5)
+		expect(mexp.eval('Sigma1,2,(n*n)')).toBe(5);
 	})
 
 	it('check when two parenthesis less functions are consecutive on one parameter', function () {
 		// console.log(a.lex('int(2.6*2)*10'))
-		assert.equal(mexp.eval('sinint2'), mexp.eval('sin(int(2))'))
+		expect(mexp.eval('sinint2')).toBe(mexp.eval('sin(int(2))'));
 	})
 
 	it('check eval method with single argument', function () {
-		assert.equal(mexp.eval('5*3'), '15')
+		expect(mexp.eval('5*3')).toBe(15);
 	})
 	it('check eval method with three argument', function () {
-		assert.equal(
-			mexp.eval('mexp*3', [{ type: 3, show: 'mexp', token: 'mexp', value: 'mexp', preced: 0 }], {
+		expect(mexp.eval('mexp*3', [{ type: 3, show: 'mexp', token: 'mexp', value: 'mexp', precedence: 0 }], {
 				mexp: 5,
-			}),
-			'15'
-		)
+			})).toBe(15);
 	})
 	it('check eval method with two argument when second one is value of constants', function () {
-		assert.equal(mexp.eval('mexp*3', [{ type: 3, show: 'mexp', value: 'mexp', token: 'mexp' }], { mexp: 5 }), '15')
+		expect(mexp.eval('mexp*3', [{ type: 3, show: 'mexp', value: 'mexp', token: 'mexp', precedence: 0 }], { mexp: 5 })).toBe(15);
 	})
 	it('check eval method with two argument when second one is value of constants', function () {
-		assert.equal(
-			mexp.eval('mexp3', [
+		expect(mexp.eval('mexp3', [
 				{
 					type: 0,
 					show: 'mexp',
-					value: function (a) {
+					value: function (a: number) {
 						return 10 * a
 					},
 					token: 'mexp',
+					precedence: 0,
 				},
 			]),
-			'30'
-		)
+		).toBe(30);
 	})
 	it('check eval method with two argument when second one is token list', function () {
-		assert.equal(
-			mexp.eval('mexp(3)', [
+		expect(mexp.eval('mexp(3)', [
 				{
 					type: 0,
 					show: 'mexp(',
-					value: function (a) {
+					value: function (a: number) {
 						return 5 * a
 					},
 					token: 'mexp',
+					precedence: 0,
 				},
 			]),
-			'15'
-		)
+		).toBe(15);
 	})
 	it('Pi', function () {
-		assert.equal(mexp.eval('Pi1,5,n'), '120')
+		expect(mexp.eval('Pi1,5,n')).toBe(120);
 	})
 	it('tan5(6+3)', function () {
-		assert.equal(
-			Math.round((mexp.eval('tan45(6+3)') + Number.EPSILON) * 100) / 100,
-			Math.round((9 + Number.EPSILON) * 100) / 100
+		expect(
+			Math.round((mexp.eval('tan45(6+3)') + Number.EPSILON) * 100) / 100,)
+			.toBe(
+				Math.round((9 + Number.EPSILON) * 100) / 100
 		)
 	})
 	it('tan(40+5)', function () {
-		assert.equal(mexp.eval('tan(40+5)'), '1')
+		expect(mexp.eval('tan(40+5)')).toBe(1);
 	})
 	it('checks when a 0 is missing in a decimal number', function () {
-		assert.equal(mexp.eval('5*.8'), '4')
+		expect(mexp.eval('5*.8')).toBe(4);
 	})
 	it('checks root function', function () {
-		assert.equal(mexp.eval('root4'), '2')
-		assert.equal(
+		expect(mexp.eval('root4')).toBe(2);
+		expect(
 			Math.round((mexp.eval('root(4-1^2)') + Number.EPSILON) * 100) / 100,
+		).toBe(
 			Math.round((Math.sqrt(3) + Number.EPSILON) * 100) / 100
 		)
-		assert.equal(
+		expect(
 			Math.round((mexp.eval('root(4-(2-1)^2)') + Number.EPSILON) * 100) / 100,
+		).toBe(
 			Math.round((Math.sqrt(3) + Number.EPSILON) * 100) / 100
 		)
 	})
 	it('checks + precedence before number insise parenthesis ', function () {
-		assert.equal(mexp.eval('(-2)'), '-2')
+		expect(mexp.eval('(-2)')).toBe(-2);
 	})
 	it('dividing by negative number ', function () {
-		assert.equal(mexp.eval('2/-2'), '-1')
+		expect(mexp.eval('2/-2')).toBe(-1);
 	})
 	it('multiplying by negative number ', function () {
-		assert.equal(mexp.eval('2*-2'), '-4')
+		expect(mexp.eval('2*-2')).toBe(-4);
 	})
 	it('checks multiple allowable operator', function () {
-		assert.equal(mexp.eval('2+++-++-+-+3'), '-1')
-		assert.equal(mexp.eval('2*+3'), '6')
+		expect(mexp.eval('2+++-++-+-+3')).toBe(-1);
+		expect(mexp.eval('2*+3')).toBe(6);
 	})
 	it("checks sign after function", function() {
-		assert.equal(mexp.eval('cos-0-cos0'), '0')
-
-		
-
+		expect(mexp.eval('cos-0-cos0')).toBe(0);
 	})
 })
 describe('These expression will check for types of returned result', function () {
 	it('should tell to compllete expression', function () {
-		assert.equal(typeof mexp.eval('0'), 'number')
+		expect(typeof mexp.eval('0')).toBe('number');
 	})
 })
 describe('These expression will raise error', function () {
 	it('should tell to compllete expression', function () {
 		try {
 			mexp.eval('2*')
-			assert.equal(1, 2)
+			expect(1).toBe(2);
 		} catch (e) {
-			assert.equal(e.message, 'complete the expression')
+			expect(e.message).toBe('complete the expression');
 		}
 	})
 	it('should warn about multiple operators', function () {
 		try {
 			mexp.eval('2**3')
-			assert.equal(1, 2)
+			expect(1).toBe(2);
 		} catch (e) {
-			assert.equal(e.message, '* is not allowed after *')
+			expect(e.message).toBe('* is not allowed after *');
 		}
 	})
 	it('should warn about multiple operators', function () {
 		try {
 			mexp.eval('2*Mod*3')
-			assert.equal(1, 2)
+			expect(1).toBe(2);
 		} catch (e) {
-			assert.equal(e.message, 'Mod is not allowed after *')
+			expect(e.message).toBe('Mod is not allowed after *');
 		}
 	})
 	it('should warn about operator inside parenthesis', function () {
 		try {
 			mexp.eval('(+)')
-			assert.equal(1, 2)
+			expect(1).toBe(2);
 		} catch (e) {
-			assert.equal(e.message, ') is not allowed after +')
+			expect(e.message).toBe(') is not allowed after +');
 		}
 	})
 	it('should warn about operator inside parenthesis', function () {
 		try {
 			mexp.eval('(2+3+)')
-			assert.equal(1, 2)
+			expect(1).toBe(2);
 		} catch (e) {
-			assert.equal(e.message, ') is not allowed after +')
+			expect(e.message).toBe(') is not allowed after +');
 		}
 	})
 	it('should warn about using space as operator', function () {
 		try {
 			console.log(mexp.eval('1 2'))
-			assert.equal(1, 2)
+			expect(1).toBe(2);
 		} catch (e) {
-			assert.equal(e.message, 'Unexpected Space')
+			expect(e.message).toBe('Unexpected Space');
 		}
 	})
 	it('should warn about using space as operator', function () {
 		try {
 			console.log(mexp.eval('1. 2'))
-			assert.equal(1, 2)
+			expect(1).toBe(2);
 		} catch (e) {
-			assert.equal(e.message, 'Unexpected Space')
+			expect(e.message).toBe('Unexpected Space')
 		}
 	})
 })
 describe('Check autoclose of parenthesis of parser', function () {
 	it('should tell to compllete expression', function () {
-		assert.equal(mexp.eval('((2+3*4'), '14')
+		expect(mexp.eval('((2+3*4')).toBe(14);
 	})
 })
 describe('Ading Token', function () {
 	it('should tell to compllete expression', function () {
-		assert.equal(
-			mexp.eval('27nroot3', [
+		expect(mexp.eval('27nroot3', [
 				{
 					type: 2,
 					token: 'nroot',
 					show: 'nroot',
-					value: function (a, b) {
+					value: function (a: number, b: number) {
 						return Math.pow(a, 1 / b)
 					},
+					precedence: 0,
 				},
 			]),
-			3
-		)
-		assert.equal(
-			mexp.eval('27nrootlongesttoken3', [
+		).toBe(3);
+		expect(mexp.eval('27nrootlongesttoken3', [
 				{
 					type: 2,
 					token: 'nrootlongesttoken',
 					show: 'nrootlongesttoken',
-					value: function (a, b) {
+					value: function (a: number, b: number) {
 						return Math.pow(a, 1 / b)
 					},
+					precedence: 0,
 				},
 			]),
-			3
-		)
-		assert.equal(
-			mexp.eval('17tokenwithnumber347', [
+		).toBe(3);
+		expect(mexp.eval('17tokenwithnumber347', [
 				{
 					type: 2,
 					token: 'tokenwithnumber34',
 					show: 'tokenwithnumber34',
-					value: function (a, b) {
+					value: function (a: number, b: number) {
 						return a + b
 					},
+					precedence: 0,
 				},
 			]),
-			24
-		)
+		).toBe(24);
 	})
 	it('should evaluate to correct two functions', function () {
 		// console.log("PAGAL", a.eval("min(4,ceil(0.1*10))"))
-		assert.equal(
-			mexp.eval('min(4,ceil(0.011*100))', [
+		expect(mexp.eval('min(4,ceil(0.011*100))', [
 				{
 					type: 0,
 					token: 'ceil',
 					show: 'ceil',
-					value: function (a) {
+					value: function (a: number) {
 						const ans = Math.ceil(a)
 						return ans
 					},
+					precedence: 0,
 				},
 				{
 					type: 8,
 					token: 'min',
 					show: 'min',
-					value: function (a, b) {
+					value: function (a: number, b: number) {
 						return Math.min(a, b)
 					},
+					precedence: 0,
 				},
 			]),
-			2
-		)
+		).toBe(2);
 	})
 	it('should also evaluate to correct two functions', function () {
 		// console.log("PAGAL", a.eval("min(4,ceil(0.1*10))"))
-		assert.equal(mexp.eval('ceil(min(4, 0.0801*100))'), 4)
+		expect(mexp.eval('ceil(min(4, 0.0801*100))')).toBe(4);
 	})
 
 	it('should tell to compllete expression', function () {
-		assert.equal(
-			mexp.eval('27nroot3', [
+		expect(mexp.eval('27nroot3', [
 				{
 					type: 2,
 					token: 'nroot',
 					show: 'nroot',
-					value: function (a, b) {
+					value: function (a: number, b: number) {
 						return Math.pow(a, 1 / b)
 					},
+					precedence: 0,
 				},
 			]),
-			3
-		)
+		).toBe(3);
 	})
 	it('should tell to compllete expression', function () {
-		assert.equal(
-			mexp.eval('27nrootlongesttoken3', [
+		expect(mexp.eval('27nrootlongesttoken3', [
 				{
 					type: 2,
 					token: 'nrootlongesttoken',
 					show: 'nrootlongesttoken',
-					value: function (a, b) {
+					value: function (a: number, b: number) {
 						return Math.pow(a, 1 / b)
 					},
+					precedence: 0,
 				},
 			]),
-			3
-		)
+		).toBe(3);
 	})
 	it('should tell to compllete expression', function () {
-		assert.equal(
-			mexp.eval('17tokenwithnumber347', [
+		expect(mexp.eval('17tokenwithnumber347', [
 				{
 					type: 2,
 					token: 'tokenwithnumber34',
 					show: 'tokenwithnumber34',
-					value: function (a, b) {
+					value: function (a: number, b: number) {
 						return a + b
 					},
+					precedence: 0,
 				},
 			]),
-			24
-		)
+		).toBe(24);
 	})
 	it('maximum of 5 numbers', function () {
-		assert.equal(
-			mexp.eval('maxof2(1,maxof2(maxof2(maxof2(maxof2(2,3),5),6),7))', [
+		expect(mexp.eval('maxof2(1,maxof2(maxof2(maxof2(maxof2(2,3),5),6),7))', [
 				{
 					type: 8,
 					token: 'maxof2',
 					show: 'maxof2',
-					value: function (a, b, c) {
+					value: function (a: number, b: number, c: number) {
 						return Math.max(a, b)
 					},
+					precedence: 0,
 				},
 			]),
-			7
-		)
+		).toBe(7);
 	})
 	it('maximum of 5 numbers using n arguments', function () {
-		assert.equal(
-			mexp.eval('maxof5(7, 12, 23, 33, 2)', [
+		expect(mexp.eval('maxof5(7, 12, 23, 33, 2)', [
 				{
 					type: Mexp.tokenTypes.FUNCTION_WITH_N_ARGS,
 					token: 'maxof5',
 					show: 'maxof5',
 					numberOfArguments: 5,
-					value: function (a, b, c, d, e) {
+					value: function (a: number, b: number, c: number, d: number, e: number) {
 						return Math.max.apply(Math, [a, b, c, d, e])
 					},
+					precedence: 0,
 				},
 			]),
-			33
-		)
+		).toBe(33);
 	})
 	it ('should test simple X token', function () {
 		mexp.addToken([{
@@ -418,22 +414,22 @@ describe('Ading Token', function () {
 			token: "X",
 			show: "X",
 			value: mexp.math.mul,
+			precedence: 0,
 		}])
-		assert.equal(mexp.eval("2X3"), 6)		
+		expect(mexp.eval("2X3")).toBe(6);
 	})
 	it('token with absolute', function () {
-		assert.equal(
-			mexp.eval('root(positive(2-6))', [
+		expect(mexp.eval('root(positive(2-6))', [
 				{
 					type: 0,
 					token: 'positive',
 					show: 'positive',
-					value: function (a) {
+					value: function (a: number) {
 						return Math.abs(a)
 					},
+					precedence: 0,
 				},
 			]),
-			2
-		)
+		).toBe(2);
 	})
 })
