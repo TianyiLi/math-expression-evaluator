@@ -23,8 +23,9 @@
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitOverride": true,
 		"plugins": [],
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"declarationDir": "./dist/types"
 	},
 	"include": ["./src"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "./dist"]
 }
