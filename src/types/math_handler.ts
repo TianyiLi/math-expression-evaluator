@@ -1,33 +1,33 @@
 import { ParsedToken } from '../token';
 
-export interface MathHandler {
+export interface MathHandler<BaseType = number, NaNType = 'NaN'> {
   isDegree: boolean
-  acos: (x: number) => number
-  add: (a: number, b: number) => number
-  asin: (x: number) => number
-  atan: (x: number) => number
-  acosh: (x: number) => number
-  asinh: (x: number) => number
-  atanh: (x: number) => number
-  C: (n: number, r: number) => number | 'NaN'
-  changeSign: (x: number) => number
-  cos: (x: number) => number
-  cosh: (x: number) => number
-  div: (a: number, b: number) => number
-  fact: (n: number) => number | 'NaN'
-  inverse: (x: number) => number
-  log: (x: number) => number
-  mod: (a: number, b: number) => number
-  mul: (a: number, b: number) => number
-  P: (n: number, r: number) => number
-  Pi: (low: number, high: number, ex: ParsedToken[]) => number
-  pow10x: (e: number) => number
-  sigma: (low: number, high: number, ex: ParsedToken[]) => number
-  sin: (x: number) => number
-  sinh: (x: number) => number
-  sub: (a: number, b: number) => number
-  tan: (x: number) => number
-  tanh: (x: number) => number
-  toRadian: (x: number) => number
-  and: (a: number, b: number) => number
+  acos: (x: BaseType) => BaseType
+  add: (a: BaseType, b: BaseType) => BaseType
+  asin: (x: BaseType) => BaseType
+  atan: (x: BaseType) => BaseType
+  acosh: (x: BaseType) => BaseType
+  asinh: (x: BaseType) => BaseType
+  atanh: (x: BaseType) => BaseType
+  C: (n: BaseType, r: BaseType) => BaseType | NaNType
+  changeSign: (x: BaseType) => BaseType
+  cos: (x: BaseType) => BaseType
+  cosh: (x: BaseType) => BaseType
+  div: (a: BaseType, b: BaseType) => BaseType
+  fact: (n: BaseType) => BaseType | NaNType
+  inverse: (x: BaseType) => BaseType
+  log: (x: BaseType) => BaseType
+  mod: (a: BaseType, b: BaseType) => BaseType
+  mul: (a: BaseType, b: BaseType) => BaseType
+  P: (n: BaseType, r: BaseType) => BaseType
+  Pi: (low: BaseType, high: BaseType, ex: ParsedToken[]) => BaseType
+  pow10x: (e: BaseType) => BaseType
+  sigma: (low: BaseType, high: BaseType, ex: ParsedToken[]) => BaseType
+  sin: (x: BaseType) => BaseType
+  sinh: (x: BaseType) => BaseType
+  sub: (a: BaseType, b: BaseType) => BaseType
+  tan: (x: BaseType) => BaseType
+  tanh: (x: BaseType) => BaseType
+  toRadian: (x: BaseType) => BaseType
+  and: (a: BaseType, b: BaseType) => BaseType
 }

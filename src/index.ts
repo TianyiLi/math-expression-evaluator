@@ -7,7 +7,7 @@ import { MathHandler } from './types/math_handler';
 // var Mexp = function (parsed) {
 //   this.value = parsed
 // }
-class Mexp {
+class Mexp<BaseType = number, NaNType = 'NaN'> {
 	static TOKEN_TYPES = tokenTypes
 	static tokenTypes = tokenTypes
 	tokens!: Token[]
@@ -18,8 +18,8 @@ class Mexp {
 	eval(string: string, tokens?: Token[], Constants?: Constants) {
 		return this.postfixEval(this.toPostfix(this.lex(string, tokens)), Constants)
 	}
-	public math: MathHandler;
-	constructor(mathHandler: (mexp: Mexp) => MathHandler) {
+	public math: MathHandler<BaseType, NaNType>;
+	constructor(mathHandler: (mexp: Mexp<BaseType, NaNType>) => MathHandler<BaseType, NaNType>) {
 		this.math = mathHandler(this)
 		this.tokens = createTokens(this)
 	}

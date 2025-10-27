@@ -26,15 +26,24 @@ describe('Floating Point', function () {
       expr: '(0.1 * 10 + 0.2 * 10) / 10',
       expected: 0.3,
     },
+    {
+      expr: '(0.1 + 0.2) * 10000000000',
+      expected: 3000000000,
+      mthShouldError: true,
+    }
   ];
   it.each(textCases)(
-    'should evaluate floating point',
-    function ({ expr, expected }) {
-      expect(mexp.eval(expr)).toBe(expected);
+    'should evaluate floating point with number',
+    function ({ expr, expected, mthShouldError }) {
+      if (mthShouldError) {
+        expect(() => expect(mexp.eval(expr)).toBe(expected)).toThrow();
+      } else {
+        expect(mexp.eval(expr)).toBe(expected);
+      }
     }
   );
   it.each(textCases)(
-    'should evaluate floating point',
+    'should evaluate floating point with big number',
     function ({ expr, expected }) {
       expect(bnMexp.eval(expr)).toBe(expected);
     }

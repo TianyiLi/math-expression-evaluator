@@ -55,5 +55,8 @@
 	},
 	"peerDependencies": {
 		"bignumber.js": "^9.1.2"
+	},
+	"dependencies": {
+		"reusify": "^1.1.0"
 	}
 }

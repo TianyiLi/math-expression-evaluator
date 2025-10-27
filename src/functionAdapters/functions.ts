@@ -2,6 +2,8 @@ import { ParsedToken } from '../token'
 import Mexp from '../index'
 import { MathHandler } from '../types/math_handler'
 
+export const createBase = (v: number) => v
+
 export const createMathFunctions = (mexp: Mexp): MathHandler => ({
 	isDegree: true, // mode of calculator
 	acos: function (x: number) {

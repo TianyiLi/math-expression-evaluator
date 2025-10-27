@@ -29,7 +29,7 @@ export const preced: { [key in tokenTypes]: number } = {
 	14: -1,
 } // stores precedence by types
 
-export const createTokens = (mexp: Mexp) => {
+export const createTokens = <BaseType = number, NaNType = 'NaN'>(mexp: Mexp<BaseType, NaNType>) => {
 	var rawTokens: RawToken[] = [
 		{ token: 'sin', show: 'sin', type: 0, value: mexp.math.sin },
 		{ token: 'cos', show: 'cos', type: 0, value: mexp.math.cos },
