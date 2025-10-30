@@ -30,4 +30,7 @@ export interface MathHandler<BaseType = number, NaNType = 'NaN'> {
   tanh: (x: BaseType) => BaseType
   toRadian: (x: BaseType) => BaseType
   and: (a: BaseType, b: BaseType) => BaseType
+  floor: (x: BaseType) => BaseType
+  pow: (a: BaseType, b: BaseType) => BaseType
+  sqrt: (x: BaseType) => BaseType
 }

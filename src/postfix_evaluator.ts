@@ -1,7 +1,6 @@
-import { toPostfix } from './postfix'
 import { tokenTypes, ParsedToken } from './token'
 export type Constants = Record<string, number>
-export function postfixEval(arr: ReturnType<typeof toPostfix>, Constants?: Constants) {
+export function postfixEval(arr: ParsedToken[], Constants?: Constants): number {
 	Constants = Constants || {}
 	Constants.PI = Math.PI
 	Constants.E = Math.E

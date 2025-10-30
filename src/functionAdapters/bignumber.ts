@@ -110,5 +110,15 @@ export const createBigNumberFunctions = (mexp: Mexp): MathHandler => ({
 		return exp.minus(expNeg).div(exp.plus(expNeg)).toNumber();
 	},
 	toRadian: (x: number) => toRadians(new BigNumber(x)).toNumber(),
-	and: (a: number, b: number) => bitwiseAnd(new BigNumber(a), new BigNumber(b)).toNumber()
+	and: (a: number, b: number) => bitwiseAnd(new BigNumber(a), new BigNumber(b)).toNumber(),
+	floor: (x: number) => new BigNumber(x).dp(0).toNumber(),
+	pow: (a: number, b: number) => {
+		const powValue = new BigNumber(b)
+		const decimalPlaces = powValue.dp()
+		if (!!decimalPlaces) {
+			return Math.pow(a, b)
+		}
+		return new BigNumber(a).pow(powValue).toNumber()
+	},
+	sqrt: (x: number) => new BigNumber(x).sqrt().toNumber(),
 });

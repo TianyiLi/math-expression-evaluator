@@ -73,21 +73,6 @@ describe('Testing Unit', function () {
 		)
 	})
 
-	// it('formula test', function () {
-	// 	assert.equal(mexp.eval('2').toPostfix().formulaEval(), 2)
-	// })
-	// it('formula test', function () {
-	// 	assert.equal(mexp.eval('sinpi').toPostfix().formulaEval(), 'sin(&pi;)')
-	// })
-	// it('formula test', function () {
-	// 	assert.equal(mexp.eval('cos pi').toPostfix().formulaEval(), 'cos(&pi;)')
-	// })
-	// it('formula test', function () {
-	// 	assert.equal(mexp.eval('tan(pi)').toPostfix().formulaEval(), 'tan(&pi;)')
-	// })
-	// it('formula test', function () {
-	// 	assert.equal(mexp.eval('2(7-4)3').toPostfix().formulaEval(), '(2&times;(7-4))&times;3')
-	// })
 	it('test to check the bug when number contains decimal', function () {
 		expect(mexp.eval('int2.3')).toBe(2);
 	})

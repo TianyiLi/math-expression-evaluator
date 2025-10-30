@@ -1,13 +1,13 @@
 import { lex } from './lexer'
 import { ParsedToken } from './token'
-export function toPostfix(arr: ReturnType<typeof lex>) {
+export function toPostfix(arr: ParsedToken[]): ParsedToken[] {
 	'use strict'
-	var post: ParsedToken[] = [],
-		elem,
-		popped,
-		previousPrecedence = -1,
-		precedence = -1,
-		ele
+	var post: ParsedToken[] = []
+	let elem: ParsedToken
+	let popped: ParsedToken | undefined
+	let previousPrecedence = -1
+	let precedence = -1
+	let ele: ParsedToken
 	var stack: ParsedToken[] = [{ value: '(', type: 4, precedence: 0, show: '(' }]
 	for (var i = 1; i < arr.length; i++) {
 		if (arr[i].type === 1 || arr[i].type === 3 || arr[i].type === 13) {
@@ -31,15 +31,13 @@ export function toPostfix(arr: ReturnType<typeof lex>) {
 			precedence = elem.precedence
 			ele = stack[stack.length - 1]
 			previousPrecedence = ele.precedence
-			var flag = ele.value == 'Math.pow' && elem.value == 'Math.pow'
 			if (precedence > previousPrecedence) stack.push(elem)
 			else {
-				while ((previousPrecedence >= precedence && !flag) || (flag && precedence < previousPrecedence)) {
+				while (previousPrecedence >= precedence) {
 					popped = stack.pop()
 					ele = stack[stack.length - 1]
 					if (popped) post.push(popped)
 					previousPrecedence = ele.precedence
-					flag = elem.value == 'Math.pow' && ele.value == 'Math.pow'
 				}
 				stack.push(elem)
 			}

@@ -23,9 +23,5 @@ class Mexp<BaseType = number, NaNType = 'NaN'> {
 		this.math = mathHandler(this)
 		this.tokens = createTokens(this)
 	}
-
-	// static Exception =   function (message) {
-	//   this.message = message
-	// }
 }
 export default Mexp

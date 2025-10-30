@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-import { tokenTypes, Token, ParsedToken, preced } from "./token";
-import Mexp from "./index";
+import { tokenTypes, type Token, type ParsedToken, preced } from './token';
+import Mexp from './index';
 function inc(arr: number[], val: number) {
   for (var i = 0; i < arr.length; i++) {
     arr[i] += val;
@@ -63,37 +63,37 @@ var type6: Allowed = {
 var newAr = [
   [],
   [
-    "1",
-    "2",
-    "3",
-    "7",
-    "8",
-    "9",
-    "4",
-    "5",
-    "6",
-    "+",
-    "-",
-    "*",
-    "/",
-    "(",
-    ")",
-    "^",
-    "!",
-    "P",
-    "C",
-    "e",
-    "0",
-    ".",
-    ",",
-    "n",
-    " ",
-    "&",
+    '1',
+    '2',
+    '3',
+    '7',
+    '8',
+    '9',
+    '4',
+    '5',
+    '6',
+    '+',
+    '-',
+    '*',
+    '/',
+    '(',
+    ')',
+    '^',
+    '!',
+    'P',
+    'C',
+    'e',
+    '0',
+    '.',
+    ',',
+    'n',
+    ' ',
+    '&',
   ],
-  ["pi", "ln", "Pi"],
-  ["sin", "cos", "tan", "Del", "int", "Mod", "log", "pow"],
-  ["asin", "acos", "atan", "cosh", "root", "tanh", "sinh"],
-  ["acosh", "atanh", "asinh", "Sigma"],
+  ['pi', 'ln', 'Pi'],
+  ['sin', 'cos', 'tan', 'Del', 'int', 'Mod', 'log', 'pow'],
+  ['asin', 'acos', 'atan', 'cosh', 'root', 'tanh', 'sinh'],
+  ['acosh', 'atanh', 'asinh', 'Sigma'],
 ];
 
 function match(str1: string, str2: string, i: number, x: number) {
@@ -122,7 +122,10 @@ function match(str1: string, str2: string, i: number, x: number) {
 	13: variable of Sigma function
  */
 
-export function addToken(this: Mexp, newTokens: Token[]) {
+export function addToken<BaseType = number, NaNType = 'NaN'>(
+  this: Mexp<BaseType, NaNType>,
+  newTokens: Token[]
+) {
   for (var i = 0; i < newTokens.length; i++) {
     var x = newTokens[i].token.length;
     var temp = -1;
@@ -161,15 +164,18 @@ function indexOfToken(key: string, tokens: Token[]) {
   }
   return -1;
 }
-function tokenize(mexp: Mexp, string: string) {
-  var nodes = [];
+function tokenize<BaseType = number, NaNType = 'NaN'>(
+  mexp: Mexp<BaseType, NaNType>,
+  string: string
+) {
+  var nodes: Token[] = [];
   var length = string.length;
   var key, x, y;
   for (var i = 0; i < length; i++) {
-    if (i < length - 1 && string[i] === " " && string[i + 1] === " ") {
+    if (i < length - 1 && string[i] === ' ' && string[i + 1] === ' ') {
       continue;
     }
-    key = "";
+    key = '';
     for (
       x =
         string.length - i > newAr.length - 2
@@ -188,47 +194,51 @@ function tokenize(mexp: Mexp, string: string) {
       }
     }
     i += key.length - 1;
-    if (key === "") {
+    if (key === '') {
       throw new Error("Can't understand after " + string.slice(i));
     }
     nodes.push(mexp.tokens[indexOfToken(key, mexp.tokens)]);
   }
   return nodes;
 }
-export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<BaseType, NaNType>, inp: string, tokens?: Token[]) {
-  "use strict";
+export const lex = function <BaseType = number, NaNType = 'NaN'>(
+  this: Mexp<BaseType, NaNType>,
+  inp: string,
+  tokens?: Token[]
+): ParsedToken[] {
+  'use strict';
   var changeSignObj: ParsedToken = {
     value: this.math.changeSign,
     type: tokenTypes.FUNCTION_WITH_ONE_ARG,
     precedence: 4,
-    show: "-",
+    show: '-',
   };
   var closingParObj: ParsedToken = {
-    value: ")",
-    show: ")",
+    value: ')',
+    show: ')',
     type: tokenTypes.CLOSING_PARENTHESIS,
     precedence: 0,
   };
   var openingParObj: ParsedToken = {
-    value: "(",
+    value: '(',
     type: tokenTypes.OPENING_PARENTHESIS,
     precedence: 0,
-    show: "(",
+    show: '(',
   };
 
   var str = [openingParObj];
 
-  var ptc = []; // Parenthesis to close at the beginning is after one token
+  var ptc: number[] = []; // Parenthesis to close at the beginning is after one token
   var inpStr = inp;
   var allowed = type0;
   var bracToClose = 0;
   var asterick = empty;
-  var prevKey = "";
+  var prevKey = '';
   var i;
-  if (typeof tokens !== "undefined") {
+  if (typeof tokens !== 'undefined') {
     this.addToken(tokens);
   }
-  var nodes = tokenize(this, inpStr);
+  var nodes = tokenize<BaseType, NaNType>(this, inpStr);
   for (i = 0; i < nodes.length; i++) {
     var node = nodes[i];
     if (node.type === 14) {
@@ -238,7 +248,7 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
         nodes[i + 1].type === 1 &&
         (nodes[i - 1].type === 1 || nodes[i - 1].type === 6)
       ) {
-        throw new Error("Unexpected Space");
+        throw new Error('Unexpected Space');
       }
       continue;
     }
@@ -267,7 +277,7 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
           ].indexOf(cType) !== -1
         ) {
           if (allowed[cType] !== true) {
-            throw new Error(cToken + " is not allowed after " + prevKey);
+            throw new Error(cToken + ' is not allowed after ' + prevKey);
           }
           str.push(closingParObj);
           allowed = type1;
@@ -277,12 +287,12 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
       } else break;
     }
     if (allowed[cType] !== true) {
-      throw new Error(cToken + " is not allowed after " + prevKey);
+      throw new Error(cToken + ' is not allowed after ' + prevKey);
     }
     if (asterick[cType] === true) {
       cType = tokenTypes.BINARY_OPERATOR_HIGH_PRECENDENCE;
       cEv = this.math.mul;
-      cShow = "&times;";
+      cShow = '&times;';
       cPre = 3;
       i = i - 1;
     }
@@ -332,7 +342,7 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
     } else if (cType === tokenTypes.CLOSING_PARENTHESIS) {
       if (!bracToClose) {
         throw new Error(
-          "Closing parenthesis are more than opening one, wait What!!!"
+          'Closing parenthesis are more than opening one, wait What!!!'
         );
       }
       bracToClose--;
@@ -342,17 +352,17 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
       inc(ptc, 1);
     } else if (cType === tokenTypes.DECIMAL) {
       if (pre.hasDec) {
-        throw new Error("Two decimals are not allowed in one number");
+        throw new Error('Two decimals are not allowed in one number');
       }
       if (pre.type !== tokenTypes.NUMBER) {
         pre = {
-          show: "0",
+          show: '0',
           value: 0,
           type: tokenTypes.NUMBER,
           precedence: 0,
         }; // pre needs to be changed as it will the last value now to be safe in later code
         str.push(pre);
-        inc(ptc, -1)
+        inc(ptc, -1);
       }
       allowed = type6;
       inc(ptc, 1);
@@ -382,9 +392,9 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
           pre.value = cEv;
           pre.show = cShow;
           inc(ptc, 1);
-        } else if (pre.value === this.math.sub && cShow === "-") {
+        } else if (pre.value === this.math.sub && cShow === '-') {
           pre.value = this.math.add;
-          pre.show = "+";
+          pre.show = '+';
           inc(ptc, 1);
         }
       } else if (
@@ -395,7 +405,7 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
         pre.type !== tokenTypes.EVALUATED_FUNCTION_PARAMETER
       ) {
         // changesign only when negative is found
-        if (cToken === "-") {
+        if (cToken === '-') {
           // do nothing for + token
           // don't add with the above if statement as that will run the else statement of parent if on Ctoken +
           allowed = type0;
@@ -444,7 +454,7 @@ export const lex = function <BaseType = number, NaNType = 'NaN'>(this: Mexp<Base
     str.push(closingParObj);
   }
   if (allowed[5] !== true) {
-    throw new Error("complete the expression");
+    throw new Error('complete the expression');
   }
   while (bracToClose--) {
     str.push(closingParObj);

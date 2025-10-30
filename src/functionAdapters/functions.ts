@@ -134,4 +134,13 @@ export const createMathFunctions = (mexp: Mexp): MathHandler => ({
 	and: function (a: number, b: number) {
 		return a & b
 	},
+	floor: function (x: number) {
+		return Math.floor(x)
+	},
+	pow: function (a: number, b: number) {
+		return Math.pow(a, b)
+	},
+	sqrt: function (x: number) {
+		return Math.sqrt(x)
+	},
 })
