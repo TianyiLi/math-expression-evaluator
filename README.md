@@ -30,10 +30,16 @@ An extremely efficient, flexible and amazing evaluator for Math expression in Ja
 ## Usage
 
 ### Using eval method of mexp object
+```ts
+// using Math
+const mexp = new Mexp(createMathFunctions)
+// using bignumber.js
+const mexp = new Mexp(createBigNumberFunctions)
+// using decimal.js
+const mexp = new Mexp(createDecimalFunctions)
 
-const mexp = new Mexp()
 var value = mexp.eval(exp);  // 2 + 2
-
+```
 ### Using constituents of eval methods of mexp object
 
 1. Create mexp object
@@ -65,22 +71,28 @@ var value = mexp.eval(exp);  // 2 + 2
 
 2. Adding tokens using addToken method of mexp object
 
-        const mexp = new Mexp()
-        mexp.addToken([token1, token2]) // tokens once added will be preserved in later evaluations
+```ts
+mexp.addToken([token1, token2]) // tokens once added will be preserved in later evaluations
+```
 
 3. Adding tokens using eval method of mexp object
 
-        const mexp = new Mexp()
-        mexp.eval("expression", [token1, token2]) // tokens once added will be preserved in later evaluations
+```ts
+mexp.eval("expression", [token1, token2]) // tokens once added will be preserved in later evaluations
+```
 
 4. Adding token using constituents of eval method of mexp object
 
-        const mexp = new Mexp()
-        const answer = mexp.postfixEval(mexp.toPostfix(mexp.lexed("expression", [token1, token2]))) // tokens once added will be preserved in later evaluations
-        console.log(answer)
+```ts
+const answer = mexp.postfixEval(mexp.toPostfix(mexp.lexed("expression", [token1, token2]))) // tokens once added will be preserved in later evaluations
+console.log(answer)
+```
+
 ## How to run test
 
-    npm test
+```bash
+bun test
+```
 
 ## Supported symbols
 
