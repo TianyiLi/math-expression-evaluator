@@ -54,7 +54,8 @@
 		}
 	},
 	"peerDependencies": {
-		"bignumber.js": "^9.1.2"
+		"bignumber.js": "^9.1.2",
+		"decimal.js": "^10.6.0"
 	},
 	"dependencies": {
 		"reusify": "^1.1.0"

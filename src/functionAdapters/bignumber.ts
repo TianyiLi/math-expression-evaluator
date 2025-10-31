@@ -1,6 +1,6 @@
 import { MathHandler } from '../types/math_handler';
 import { ParsedToken } from '../token';
-import Mexp from '../index';
+import type Mexp from '../index';
 import BigNumber from 'bignumber.js';
 
 // 輔助函數

@@ -1,8 +1,9 @@
+
 import Mexp from '../src';
 import { describe, it, expect } from 'bun:test';
-import { createBigNumberFunctions } from '../src/functionAdapters/bignumber';
+import { createDecimalFunctions } from '../src/functionAdapters/decimal';
 
-const mexp = new Mexp(createBigNumberFunctions)
+const mexp = new Mexp(createDecimalFunctions)
 
 describe('Testing Unit', function () {
 	it('should equal 2 to check a number', function () {
