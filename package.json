@@ -57,6 +57,14 @@
 		"bignumber.js": "^9.1.2",
 		"decimal.js": "^10.6.0"
 	},
+	"peerDependenciesMeta": {
+		"bignumber.js": {
+			"optional": true
+		},
+		"decimal.js": {
+			"optional": true
+		}
+	},
 	"dependencies": {
 		"reusify": "^1.1.0"
 	}
