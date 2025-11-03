@@ -9,6 +9,10 @@
     "./functionAdapters/bignumber": "./src/functionAdapters/bignumber.ts",
     "./functionAdapters/decimal": "./src/functionAdapters/decimal.ts"
   },
+  "imports": {
+    "bignumber.js": "bignumber.js",
+    "decimal.js": "decimal.js"
+  },
   "publish": {
     "include": [
       "LICENSE",
