@@ -1,13 +1,13 @@
 {
   "name": "@tianyili/math-expression-evaluator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A flexible math expression evaluator",
   "license": "MIT",
   "exports": {
     ".": "./src/index.ts",
     "./functionAdapters": "./src/functionAdapters/functions.ts",
-    "./functionAdapters/bignumber": "./src/functionAdapters/bignumber.ts",
-    "./functionAdapters/decimal": "./src/functionAdapters/decimal.ts"
+    "./bignumber": "./src/functionAdapters/bignumber.ts",
+    "./decimal": "./src/functionAdapters/decimal.ts"
   },
   "imports": {
     "bignumber.js": "npm:bignumber.js@^9.1.2",
