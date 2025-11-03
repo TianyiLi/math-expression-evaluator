@@ -1,0 +1,14 @@
+name: ci
+'on':
+  push:
+    branches:
+      - feat/*
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun test

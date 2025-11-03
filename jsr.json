@@ -8,5 +8,15 @@
     "./functionAdapters": "./src/functionAdapters/functions.ts",
     "./functionAdapters/bignumber": "./src/functionAdapters/bignumber.ts",
     "./functionAdapters/decimal": "./src/functionAdapters/decimal.ts"
+  },
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "test"
+    ]
   }
 }
