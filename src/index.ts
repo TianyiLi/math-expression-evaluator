@@ -15,7 +15,7 @@ class Mexp<BaseType = number, NaNType = 'NaN'> {
 	addToken = addToken
 	lex = lex
 	postfixEval = postfixEval
-	eval(string: string, tokens?: Token[], Constants?: Constants) {
+	eval(string: string, tokens?: Token[], Constants?: Constants): number {
 		return this.postfixEval(this.toPostfix(this.lex(string, tokens)), Constants)
 	}
 	public math: MathHandler<BaseType, NaNType>;
