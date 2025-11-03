@@ -22,7 +22,7 @@ const bitwiseAnd = (a: Decimal, b: Decimal): Decimal => {
 	return new Decimal(a.toNumber() & b.toNumber());
 };
 
-export const createBase = (v: Decimal.Value) => new Decimal(v)
+export const createBase = (v: Decimal.Value): Decimal => new Decimal(v)
 
 export const createDecimalFunctions = (mexp: Mexp): MathHandler => ({
 	isDegree: true,

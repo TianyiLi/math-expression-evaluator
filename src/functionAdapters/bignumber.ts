@@ -22,7 +22,7 @@ const bitwiseAnd = (a: BigNumber, b: BigNumber): BigNumber => {
 	return new BigNumber(a.toNumber() & b.toNumber());
 };
 
-export const createBase = (v: BigNumber.Value) => new BigNumber(v)
+export const createBase = (v: BigNumber.Value): BigNumber => new BigNumber(v)
 
 export const createBigNumberFunctions = (mexp: Mexp): MathHandler => ({
 	isDegree: true,
