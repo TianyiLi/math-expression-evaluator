@@ -10,8 +10,8 @@
     "./functionAdapters/decimal": "./src/functionAdapters/decimal.ts"
   },
   "imports": {
-    "bignumber.js": "bignumber.js",
-    "decimal.js": "decimal.js"
+    "bignumber.js": "npm:bignumber.js",
+    "decimal.js": "npm:decimal.js"
   },
   "publish": {
     "include": [
