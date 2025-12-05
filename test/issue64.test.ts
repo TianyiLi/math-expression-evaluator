@@ -1,7 +1,7 @@
 // This test is for node JS
 import { describe, it, expect } from 'bun:test';
 import Mexp from '../src';
-import { createMathFunctions } from '../src/functionAdapters/functions';
+import { createMathFunctions } from '../src/functionAdapters/math';
 import { createBigNumberFunctions } from '../src/functionAdapters/bignumber';
 describe('Testing Issue #64', function () {
 	const mexp = new Mexp(createMathFunctions);

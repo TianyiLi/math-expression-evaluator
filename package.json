@@ -1,13 +1,15 @@
 {
 	"name": "math-expression-evaluator",
-	"version": "0.0.0-development",
+	"version": "0.0.1",
 	"type": "module",
 	"description": "A flexible math expression evaluator",
 	"main": "dist/es/index.js",
 	"types": "dist/types/index.d.ts",
 	"exports": {
 		".": "./dist/es/index.js",
-		"./functionAdapters": "./dist/es/functionAdapters/index.js"
+		"./math": "./dist/es/functionAdapters/math.js",
+		"./bignumber": "./dist/es/functionAdapters/bignumber.js",
+		"./decimal": "./dist/es/functionAdapters/decimal.js"
 	},
 	"scripts": {
 		"test": "bun test",

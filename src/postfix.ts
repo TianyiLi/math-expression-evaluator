@@ -1,4 +1,3 @@
-import { lex } from './lexer'
 import { ParsedToken } from './token'
 export function toPostfix(arr: ParsedToken[]): ParsedToken[] {
 	'use strict'

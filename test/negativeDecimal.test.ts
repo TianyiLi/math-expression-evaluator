@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'bun:test';
 import Mexp from '../src';
-import { createMathFunctions } from '../src/functionAdapters/functions';
+import { createMathFunctions } from '../src/functionAdapters/math';
 import { createBigNumberFunctions } from '../src/functionAdapters/bignumber';
 
 const mexp = new Mexp(createMathFunctions);

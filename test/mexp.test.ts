@@ -2,7 +2,7 @@
 
 import Mexp from '../src';
 import { describe, it, expect } from 'bun:test';
-import { createMathFunctions } from '../src/functionAdapters/functions';
+import { createMathFunctions } from '../src/functionAdapters/math';
 
 const mexp = new Mexp(createMathFunctions)
 
